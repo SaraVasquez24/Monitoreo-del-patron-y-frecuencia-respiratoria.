@@ -201,11 +201,12 @@ Se usa `filtfilt` para evitar desfase.
 
 El filtro diseñado corresponde a un filtro pasa banda Butterworth que permite aislar únicamente la información asociada al proceso respiratorio. En primer lugar, elimina la componente DC presente en la señal, la cual está relacionada con el nivel de presión constante ejercido por la banda elástica sobre el sensor y no contiene información dinámica relevante del ciclo respiratorio. En segundo lugar, atenúa el ruido de alta frecuencia, que puede deberse a interferencias electrónicas, pequeñas vibraciones o movimientos corporales no relacionados directamente con la respiración. Finalmente, el filtro conserva únicamente la banda de interés comprendida entre 0.1 Hz y 0.6 Hz, rango en el cual se encuentra la frecuencia respiratoria normal de un individuo sano. De esta manera, se obtiene una señal más limpia, estable y representativa del patrón respiratorio real, facilitando su análisis en el dominio del tiempo y de la frecuencia.
 
+### Señal en reposo con filtro
 <img width="991" height="630" alt="image" src="https://github.com/user-attachments/assets/55bbc040-06c6-41f1-9b1c-f5e40fea7909" />
-Señal en reposo con filtro
 
+## Señal hablando con filtro
 <img width="991" height="630" alt="image" src="https://github.com/user-attachments/assets/c9d7960d-483b-4b3e-8a96-fe21ea7896b0" />
-Señal hablando con filtro
+
 
 ---
 
