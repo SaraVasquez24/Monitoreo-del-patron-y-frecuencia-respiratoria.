@@ -204,7 +204,7 @@ El filtro diseñado corresponde a un filtro pasa banda Butterworth que permite a
 ### Señal en reposo con filtro
 <img width="991" height="630" alt="image" src="https://github.com/user-attachments/assets/55bbc040-06c6-41f1-9b1c-f5e40fea7909" />
 
-## Señal hablando con filtro
+### Señal hablando con filtro
 <img width="991" height="630" alt="image" src="https://github.com/user-attachments/assets/c9d7960d-483b-4b3e-8a96-fe21ea7896b0" />
 
 
