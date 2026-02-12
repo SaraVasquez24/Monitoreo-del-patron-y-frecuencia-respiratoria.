@@ -1,13 +1,10 @@
 # Monitoreo-del-patron-y-frecuencia-respiratoria.
 Sara Damaris Vasquez Cardenas y Paula Andrea Vega Pardo
 
----
-
-#  LABORATORIO 1 
 
 ---
 
-# INTRODUCCIÓN
+## INTRODUCCIÓN
 
 En esta práctica se diseñó e implementó un sistema capaz de monitorear el proceso respiratorio de un individuo sano, capturar la señal mediante un sensor físico, digitalizarla usando un microcontrolador y posteriormente procesarla en MATLAB para obtener su frecuencia dominante en el dominio del tiempo y la frecuencia.
 
@@ -32,11 +29,11 @@ La respiración es un proceso fisiológico que permite el intercambio de gases e
 - Movimiento torácico  
 - Frecuencia respiratoria  
 
-En esta práctica se decidió medir el **movimiento torácico**, ya que existe una relación directa entre la expansión del tórax y el ciclo respiratorio.
+En esta práctica se decidió medir el movimiento torácico, ya que existe una relación directa entre la expansión del tórax y el ciclo respiratorio.
 
 La frecuencia respiratoria normal en adultos sanos es:
 
-- **12–20 respiraciones/minuto**
+- 12–20 respiraciones/minuto
 - Equivalente a **0.2–0.33 Hz**
 
 Durante el habla puede aumentar hasta aproximadamente **0.4–0.5 Hz**.
