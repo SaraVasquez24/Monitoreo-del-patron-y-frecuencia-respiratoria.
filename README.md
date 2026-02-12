@@ -97,6 +97,9 @@ En el código se define una frecuencia de muestreo de 1000 Hz, lo que permite ca
 
 ##  Análisis del Serial Plotter
 
+<img width="1600" height="1600" alt="image" src="https://github.com/user-attachments/assets/f48325c7-77df-4e6e-94cb-32cc365b991b" />
+
+
 La señal observada en el Serial Plotter corresponde a la señal respiratoria cruda.
 
 ### Características observadas:
@@ -198,6 +201,11 @@ Se usa `filtfilt` para evitar desfase.
 
 El filtro diseñado corresponde a un filtro pasa banda Butterworth que permite aislar únicamente la información asociada al proceso respiratorio. En primer lugar, elimina la componente DC presente en la señal, la cual está relacionada con el nivel de presión constante ejercido por la banda elástica sobre el sensor y no contiene información dinámica relevante del ciclo respiratorio. En segundo lugar, atenúa el ruido de alta frecuencia, que puede deberse a interferencias electrónicas, pequeñas vibraciones o movimientos corporales no relacionados directamente con la respiración. Finalmente, el filtro conserva únicamente la banda de interés comprendida entre 0.1 Hz y 0.6 Hz, rango en el cual se encuentra la frecuencia respiratoria normal de un individuo sano. De esta manera, se obtiene una señal más limpia, estable y representativa del patrón respiratorio real, facilitando su análisis en el dominio del tiempo y de la frecuencia.
 
+<img width="991" height="630" alt="image" src="https://github.com/user-attachments/assets/55bbc040-06c6-41f1-9b1c-f5e40fea7909" />
+Señal en reposo con filtro
+
+<img width="991" height="630" alt="image" src="https://github.com/user-attachments/assets/c9d7960d-483b-4b3e-8a96-fe21ea7896b0" />
+Señal hablando con filtro
 
 ---
 
@@ -221,6 +229,9 @@ ffd = f(ifil);
 
 ## Señal en reposo
 
+<img width="1002" height="669" alt="image" src="https://github.com/user-attachments/assets/5a74ed31-5c98-427f-b84b-b37adcc58a0b" />
+
+
 Frecuencia dominante: 0.25 Hz
 
 Conversión:
@@ -235,6 +246,8 @@ Además, se observa una baja variabilidad en la amplitud y en la duración de lo
 ---
 
 ## Señal durante habla
+
+<img width="987" height="669" alt="image" src="https://github.com/user-attachments/assets/a2b9bbf6-1ab1-4df3-a69a-d5066b264568" />
 
 Frecuencia dominante: 0.375 Hz
 
