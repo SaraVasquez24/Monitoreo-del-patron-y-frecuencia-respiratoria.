@@ -15,19 +15,6 @@ Se evaluó además la influencia del habla en el patrón respiratorio, comparand
 
 ---
 
-# OBJETIVOS DE LA PRÁCTICA
-
-Al finalizar esta práctica se logró:
-
-1. Identificar las variables físicas involucradas en el proceso respiratorio.
-2. Diseñar un sistema capaz de monitorear la respiración.
-3. Capturar y manipular vectores en MATLAB.
-4. Evaluar la influencia del habla en la frecuencia respiratoria.
-5. Representar la señal en el dominio del tiempo y de la frecuencia.
-6. Interpretar fisiológicamente los resultados obtenidos.
-7. Documentar el proceso en GitHub.
-
----
 
 # PARTE A – DISEÑO DEL SISTEMA DE ADQUISICIÓN
 
@@ -65,13 +52,9 @@ Se utilizó un FSR (Force Sensitive Resistor).
 - Fácil integración con microcontroladores.
 - Bajo costo.
 
-El sensor fue colocado en la región torácica y asegurado con una banda elástica para:
+El sensor fue colocado en la región torácica y asegurado mediante una banda elástica alrededor del tórax, con el objetivo de garantizar un contacto continuo y estable con la superficie corporal durante todo el proceso de medición. Esta fijación permitió minimizar interferencias externas y reducir la presencia de artefactos generados por movimientos no asociados directamente al proceso respiratorio, mejorando así la calidad y confiabilidad de la señal adquirida.
 
-- Garantizar contacto continuo.
-- Minimizar interferencias.
-- Reducir artefactos por movimiento.
-
-
+---
 
 ##  Sistema de adquisición
 
@@ -109,14 +92,9 @@ void loop() {
 }
 ```
 
-### Explicación:
 
-- Se define una frecuencia de muestreo de 1000 Hz.
-- Se configura el ADC en resolución de 12 bits.
-- Se controla el tiempo de muestreo usando `micros()`.
-- Cada muestra es enviada por puerto serial.
+En el código se define una frecuencia de muestreo de 1000 Hz, lo que permite capturar adecuadamente las variaciones temporales de la señal respiratoria. El conversor análogo-digital se configura con una resolución de 12 bits, proporcionando valores digitales entre 0 y 4095 y asegurando una buena sensibilidad ante cambios en la señal del sensor. El control del tiempo de muestreo se realiza mediante la función `micros()`, lo que garantiza que cada muestra sea adquirida a intervalos regulares y uniformes. Finalmente, cada valor digitalizado es enviado de forma continua a través del puerto serial, permitiendo la visualización en tiempo real y el posterior procesamiento de los datos adquiridos.
 
-Esto garantiza muestreo uniforme y transmisión continua de datos.
 
 ---
 
@@ -126,22 +104,14 @@ La señal observada en el Serial Plotter corresponde a la señal respiratoria cr
 
 ### Características observadas:
 
-- Variaciones lentas.
-- Componente DC elevada.
-- Oscilaciones periódicas.
+La señal observada presenta variaciones lentas en el tiempo, una componente DC elevada y oscilaciones de carácter periódico, características típicas de una señal respiratoria adquirida a partir del movimiento torácico. La componente DC elevada se debe principalmente a la presión inicial ejercida por la banda elástica sobre el sensor y a la posición fija del mismo sobre el tórax, lo que genera un nivel de referencia constante alrededor del cual oscila la señal.
 
-Lo que nos indica que:
-- Subida → Inspiración.
-- Bajada → Espiración.
+Desde el punto de vista fisiológico, los incrementos en el valor de la señal se asocian con la fase de **inspiración**, ya que durante esta etapa el tórax se expande y aumenta la presión ejercida sobre el sensor. De manera contraria, las disminuciones en la señal corresponden a la **espiración**, cuando el tórax se contrae y la presión sobre el sensor disminuye. De este modo, cada ciclo completo de subida y bajada en la señal representa un ciclo respiratorio.
 
-En reposo:
-- Señal más estable y periódica.
+En condiciones de reposo, la señal presenta un comportamiento más estable y periódico, lo que refleja un patrón respiratorio regular controlado de forma automática por el sistema nervioso central. Por el contrario, durante el habla se observa una mayor variabilidad en la señal, con cambios más abruptos y una menor regularidad temporal, debido a la intervención del control voluntario de la respiración para permitir la fonación.
 
-Durante habla:
-- Mayor variabilidad.
-- Cambios más abruptos.
+Adicionalmente, se evidencian componentes de ruido y artefactos asociados a movimientos del cuerpo, ajustes del sensor y limitaciones propias del sistema de adquisición. La presencia de estos elementos no deseados justifica la necesidad de aplicar técnicas de **filtrado digital**, con el fin de mejorar la calidad de la señal y resaltar la información respiratoria relevante.
 
-Se evidenció ruido y artefactos, justificando el uso de filtrado digital.
 
 ---
 
@@ -190,11 +160,11 @@ end
 clear s
 ```
 
-Este código permite:
+Este código permite realizar una **captura temporizada de la señal respiratoria**, ya que el número total de muestras se determina a partir del tiempo de grabación ingresado por el usuario y la frecuencia de muestreo establecida. De esta manera, se garantiza que cada adquisición tenga una duración específica y controlada, lo que facilita posteriormente la comparación entre distintas condiciones experimentales.
 
-- Captura temporizada.
-- Almacenamiento en archivos `.mat`.
-- Separación de condiciones (reposo y habla).
+Además, el programa guarda automáticamente los datos adquiridos en archivos con extensión `.mat`, los cuales incluyen el vector de muestras, el vector de tiempo y la frecuencia de muestreo. Este formato permite conservar la información de manera organizada y lista para su posterior procesamiento en MATLAB, sin pérdida de datos ni necesidad de conversiones adicionales.
+
+Finalmente, el uso de un ciclo que realiza dos grabaciones consecutivas posibilita la **separación de condiciones experimentales**, como reposo y habla. Esto facilita el análisis comparativo entre ambos estados fisiológicos, permitiendo evaluar cómo varía la señal respiratoria bajo diferentes situaciones.
 
 ---
 
@@ -207,7 +177,10 @@ dr = decimate(datos, k);
 fsr = fs/k;
 ```
 
-Se reduce la frecuencia de 1000 Hz a 20 Hz, suficiente para señales respiratorias (<1 Hz).
+La frecuencia de muestreo de la señal se reduce de 1000 Hz a 20 Hz mediante un proceso de decimación, con el fin de adecuar la tasa de muestreo al contenido espectral real de la señal respiratoria. Dado que la respiración es un fenómeno de baja frecuencia, generalmente inferior a 1 Hz en individuos sanos, una frecuencia de muestreo de 20 Hz resulta más que suficiente para capturar correctamente la dinámica del proceso respiratorio sin pérdida de información relevante, cumpliendo además con el criterio de Nyquist.
+
+Esta reducción en la frecuencia de muestreo permite disminuir la cantidad de datos a procesar, optimizando el tiempo de cálculo y el uso de recursos computacionales, sin comprometer la calidad del análisis. Asimismo, al trabajar con una frecuencia más acorde con la señal de interés, se facilita el diseño de filtros digitales y la interpretación de los resultados en el dominio del tiempo y la frecuencia.
+
 
 ---
 
@@ -226,11 +199,8 @@ df = filtfilt(b,a,dr);
 
 Se usa `filtfilt` para evitar desfase.
 
-Este filtro:
+El filtro diseñado corresponde a un filtro pasa banda Butterworth que permite aislar únicamente la información asociada al proceso respiratorio. En primer lugar, elimina la componente DC presente en la señal, la cual está relacionada con el nivel de presión constante ejercido por la banda elástica sobre el sensor y no contiene información dinámica relevante del ciclo respiratorio. En segundo lugar, atenúa el ruido de alta frecuencia, que puede deberse a interferencias electrónicas, pequeñas vibraciones o movimientos corporales no relacionados directamente con la respiración. Finalmente, el filtro conserva únicamente la banda de interés comprendida entre 0.1 Hz y 0.6 Hz, rango en el cual se encuentra la frecuencia respiratoria normal de un individuo sano. De esta manera, se obtiene una señal más limpia, estable y representativa del patrón respiratorio real, facilitando su análisis en el dominio del tiempo y de la frecuencia.
 
-- Elimina componente DC.
-- Elimina ruido de alta frecuencia.
-- Conserva banda respiratoria.
 
 ---
 
@@ -260,11 +230,10 @@ Conversión:
 
 0.25 × 60 = **15 respiraciones/min**
 
-Características:
+La señal en condición de reposo presenta un patrón estable y periódico, lo que indica que el proceso respiratorio se desarrolla de manera regular y sin alteraciones externas significativas. Las oscilaciones son uniformes en el tiempo, reflejando una frecuencia respiratoria constante y controlada automáticamente por el sistema nervioso central.
 
-- Patrón estable.
-- Oscilaciones regulares.
-- Baja variabilidad.
+Además, se observa una baja variabilidad en la amplitud y en la duración de los ciclos respiratorios, lo que es característico de un individuo sano en estado de reposo. Este comportamiento confirma que la respiración es rítmica y mantiene una relación equilibrada entre inspiración y espiración.
+
 
 ---
 
@@ -276,11 +245,10 @@ Conversión:
 
 0.375 × 60 = **22.5 respiraciones/min**
 
-Características:
+La señal respiratoria durante la condición de habla presenta una mayor frecuencia, lo que indica un incremento en el número de ciclos respiratorios por unidad de tiempo. Este aumento está asociado a la necesidad de coordinar la respiración con la fonación, lo que modifica el ritmo respiratorio normal.
 
-- Mayor frecuencia.
-- Mayor variabilidad.
-- Patrón menos periódico.
+Asimismo, se observa una mayor variabilidad y un patrón menos periódico en comparación con la señal en reposo. Esto se debe a la intervención del control voluntario de la respiración durante el habla, lo que genera irregularidades en la duración y amplitud de los ciclos respiratorios, reflejando un patrón más complejo y menos estable.
+
 
 ---
 
@@ -290,25 +258,24 @@ Características:
 
 - Reposo → señal periódica.
 - Habla → mayor irregularidad.
+En el dominio del tiempo se observa que, en condición de reposo, la señal respiratoria presenta un comportamiento claramente periódico, con ciclos bien definidos y repetitivos en el tiempo. En contraste, durante el habla la señal muestra una mayor irregularidad, evidenciando variaciones en la amplitud y en la duración de los ciclos respiratorios, producto de la coordinación entre la respiración y la fonación.
+
 
 ### Dominio de la frecuencia:
 
 - Energía concentrada < 1 Hz.
 - Pico dominante claro en cada condición.
 - Confirmación del correcto filtrado.
+En el dominio de la frecuencia se observa que la mayor parte de la energía de la señal se encuentra concentrada por debajo de 1 Hz, lo cual es coherente con la naturaleza de baja frecuencia del proceso respiratorio. Además, se identifica un pico dominante claramente definido en cada condición analizada, correspondiente a la frecuencia respiratoria principal. La presencia de estos picos bien delimitados confirma que el filtrado aplicado fue adecuado, ya que permitió eliminar componentes no deseadas y resaltar de manera efectiva la información respiratoria relevante.
 
 ---
 
 # INTERPRETACIÓN FISIOLÓGICA
 
-En reposo:
-- Control automático del centro respiratorio bulbar.
-- Ritmo estable.
+En condición de reposo, la respiración está regulada principalmente por el centro respiratorio bulbar, el cual funciona de manera automática e involuntaria. Este control genera un ritmo respiratorio estable y periódico, manteniendo una frecuencia constante acorde con las necesidades metabólicas del organismo.
 
-Durante el habla:
-- Interviene control voluntario.
-- Se prolonga la espiración.
-- Aumenta la frecuencia respiratoria.
+Durante el habla, además del control automático, interviene el control voluntario de la respiración para permitir la producción de la voz. En este caso, la espiración suele prolongarse para sostener la fonación y, como consecuencia, puede aumentar la frecuencia respiratoria y alterarse la regularidad del patrón respiratorio.
+
 
 ---
 
