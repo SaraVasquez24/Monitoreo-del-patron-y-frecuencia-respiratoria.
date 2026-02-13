@@ -128,7 +128,7 @@ close all
 
 puerto   = "COM3";
 baudrate = 115200;
-fs       = 1000;
+fs       = 500;
 
 s = serialport(puerto, baudrate);
 configureTerminator(s,"LF");
